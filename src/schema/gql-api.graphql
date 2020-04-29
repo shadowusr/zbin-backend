@@ -1,0 +1,30 @@
+type Paste {
+    createdAt: String!
+    expiresAt: String!
+    language: String
+    views: Int!
+    text: String!
+    url: String!
+    isPublic: Boolean
+    title: String!
+}
+
+input PasteInput {
+    expiresAfter: Int
+    language: String
+    text: String!
+    url: String
+    isPublic: Boolean
+    title: String
+}
+
+type Query {
+    isUrlAvailable(url: String!): Boolean!
+    getPasteByUrl(url: String!): Paste!
+    getRecentPastes(count: Int!): [Paste!]!
+}
+
+type Mutation {
+    createPaste(pasteInput: PasteInput!): Paste!
+    incrementViews(url: String!): Paste!
+}
