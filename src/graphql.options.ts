@@ -18,7 +18,7 @@ export class GraphqlOptions implements GqlOptionsFactory {
             },
             debug: false,
             introspection: true,
-            playground: true,
+            playground: false,
             cors: false,
         };
     }
