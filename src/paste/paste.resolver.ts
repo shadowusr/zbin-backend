@@ -1,18 +1,13 @@
 import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
 import {PasteInputDto} from "./paste-input.dto";
 import {
-    BadRequestException,
-    Header,
     HttpException,
     HttpStatus,
-    Injectable,
-    NotFoundException,
-    Res
+    Injectable
 } from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
 import {PasteInterface as Paste} from "./paste.interface";
-import {Response} from "express";
 
 @Resolver('Paste')
 @Injectable()
@@ -22,8 +17,8 @@ export class PasteResolver {
 
     randomString(length) {
         let result = '';
-        let characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-        let charactersLength = characters.length;
+        const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
         for (let i = 0; i < length; i++) {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
@@ -36,13 +31,10 @@ export class PasteResolver {
     }
 
     @Query()
-    async getPasteByUrl(@Args('url') url: string, @Res() res: Response) {
-        let paste = await this.pasteModel.findOne({url: url}).exec();
+    async getPasteByUrl(@Args('url') url: string) {
+        const paste = await this.pasteModel.findOne({url: url}).exec();
         if (!paste) {
-            //res.status(HttpStatus.NOT_FOUND).send();
-            //return;
             throw new HttpException('Paste not found.', HttpStatus.NOT_FOUND);
-            //throw new Error("Paste with this URL does not exist!");
         }
         return paste;
     }
@@ -57,7 +49,7 @@ export class PasteResolver {
 
     @Mutation()
     async incrementViews(@Args('url') url: string) {
-        let paste = await this.pasteModel.findOne({url: url}).exec();
+        const paste = await this.pasteModel.findOne({url: url}).exec();
         if (!paste) {
             throw new HttpException('Paste not found.', HttpStatus.NOT_FOUND);
         }
@@ -86,8 +78,8 @@ export class PasteResolver {
             }
         }
 
-        let currentDate = new Date();
-        let newPaste = <Paste> {
+        const currentDate = new Date();
+        const newPaste = {
             createdAt: currentDate,
             expiresAt: pasteInput.expiresAfter < 0 ? new Date(8640000000000000) : new Date(currentDate.getTime() + pasteInput.expiresAfter * 1000),
             language: pasteInput.language,
@@ -96,21 +88,9 @@ export class PasteResolver {
             url: url,
             isPublic: pasteInput.isPublic ?? false,
             title: pasteInput.title ?? "Paste"
-        };
-        let result = new this.pasteModel(newPaste);
+        } as Paste;
+        const result = new this.pasteModel(newPaste);
 
         return result.save();
     }
 }
-
-/*
-* id: number;
-    creationDate: number;
-    expirationDate: number;
-    language: string;
-    views: number;
-    text: string;
-    url: string;
-    isPublic: boolean;
-    title: string;
-* */

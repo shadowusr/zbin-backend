@@ -1,5 +1,5 @@
 export function Blacklist(regex: RegExp) {
-    return function(target: Object, key: string | symbol) {
+    return function(target: Record<string, any>, key: string | symbol) {
 
         let val : string = target[key];
 

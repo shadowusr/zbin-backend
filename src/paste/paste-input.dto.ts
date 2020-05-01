@@ -1,6 +1,6 @@
 import {PasteInput} from "../graphql.schema.generated";
 import {IsBoolean, IsIn, IsInt, IsOptional, IsString, Length} from "class-validator";
-import {Trim, Whitelist} from "class-sanitizer";
+import {Trim} from "class-sanitizer";
 import {Blacklist} from "../blacklist.decorator";
 
 export class PasteInputDto extends PasteInput {

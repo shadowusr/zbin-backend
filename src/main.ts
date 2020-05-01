@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {ValidationPipe} from "@nestjs/common";
 import {SanitizePipe} from "./sanitize.pipe";
-import * as bodyParser from "body-parser";
 
 //process.env.NODE_ENV = 'production';
 
