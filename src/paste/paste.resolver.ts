@@ -69,7 +69,7 @@ export class PasteResolver {
             url = pasteInput.url.toLowerCase();
 
             if (await this.pasteModel.findOne({url: url}).exec()) {
-                throw new Error("This URL is busy.");
+                throw new Error("URL '" + url + "' is busy. Try another one.");
             }
         } else {
             url = this.randomString(4);
