@@ -65,7 +65,7 @@ export class PasteResolver {
         if (!pasteInput.expiresAfter) {
             pasteInput.expiresAfter = 24 * 60 * 60;
         }
-        if (pasteInput.url && pasteInput.expiresAfter > 0) {
+        if (pasteInput.url?.length >= 4 && pasteInput.expiresAfter > 0) {
             url = pasteInput.url.toLowerCase();
 
             if (await this.pasteModel.findOne({url: url}).exec()) {
